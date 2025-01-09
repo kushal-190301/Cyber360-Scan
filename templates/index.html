@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Cyber360-Scan - File/URL/IP Scanner</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Cyber360-Scan</h1>
+        <div class="scanner-section">
+            <div class="file-scanner">
+                <h2>File Scanner</h2>
+                <form id="scan-form" enctype="multipart/form-data">
+                    <input type="file" id="fileInput" name="file" accept=".txt,.pdf,.doc,.docx" required />
+                    <button type="submit">Scan</button>
+                </form>
+            </div>
+            <div class="url-scanner">
+                <h2>URL Scanner</h2>
+                <form id="urlForm">
+                    <input type="text" id="urlInput" name="url" placeholder="Enter a URL/domain" required />
+                    <button type="submit">Scan</button>
+                </form>
+            </div>
+            <div class="ip-scanner">
+                <h2>IP Scanner</h2>
+                <form id="ipForm">
+                    <input type="text" id="ipInput" name="ip" placeholder="Enter an IP address or range" required />
+                    <button type="submit">Scan</button>
+                </form>
+            </div>
+        </div>
+        <div class="results-section">
+            <h2>Scan Results</h2>
+            <div id="scan-results" class="results-box">
+                <table id="resultTable">
+                    <thead>
+                        <tr>
+                            <th>Detail</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <p>Developed by: Kushal</p>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
