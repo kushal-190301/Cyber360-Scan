@@ -7,6 +7,8 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import redis
 import urllib.parse
+import ssl
+from cryptography.fernet import Fernet
 
 app = Flask(__name__)
 
@@ -34,8 +36,26 @@ limiter = Limiter(
     storage_uri="redis://localhost:6379"
 )
 
+# Encryption key should be securely managed, for example, through environment variables:
+ENCRYPTION_KEY = os.environ.get('ENCRYPTION_KEY', Fernet.generate_key())
+cipher_suite = Fernet(ENCRYPTION_KEY)
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def encrypt_file(file_path):
+    with open(file_path, 'rb') as file:
+        file_data = file.read()
+    encrypted_data = cipher_suite.encrypt(file_data)
+    with open(file_path, 'wb') as file:
+        file.write(encrypted_data)
+
+def decrypt_file(file_path):
+    with open(file_path, 'rb') as file:
+        encrypted_data = file.read()
+    decrypted_data = cipher_suite.decrypt(encrypted_data)
+    with open(file_path, 'wb') as file:
+        file.write(decrypted_data)
 
 @app.route('/')
 def home():
@@ -56,6 +76,11 @@ def scan():
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             try:
                 file.save(file_path)
+                # Encrypt the file before processing
+                encrypt_file(file_path)
+                
+                # Decrypt the file before sending to VirusTotal
+                decrypt_file(file_path)
                 with open(file_path, 'rb') as file_to_scan:
                     files = {'file': (filename, file_to_scan)}
                     response = requests.post(VIRUSTOTAL_FILE_SCAN_URL, headers=headers, files=files)
@@ -72,6 +97,7 @@ def scan():
                 else:
                     return jsonify({'error': f'Failed to scan the file. Status code: {response.status_code}'}), 400
             finally:
+                # Decrypt before removing, although in this case, we just remove
                 if os.path.exists(file_path):
                     os.remove(file_path)
         else:
@@ -121,4 +147,6 @@ def favicon():
                                 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=os.environ.get('FLASK_DEBUG', 'True') == 'True')
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context.load_cert_chain('/home/kushal/selfsigned.crt', '/home/kushal/selfsigned.key')
+    app.run(host='0.0.0.0', port=443, ssl_context=context, debug=os.environ.get('FLASK_DEBUG', 'True') == 'True')
