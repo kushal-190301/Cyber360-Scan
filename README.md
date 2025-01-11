@@ -79,7 +79,7 @@ pip install -r requirements.txt
 **Run the application**  
 python3 app.py  
 
-**Setup using docker**
+**Setup using docker**  
 Install the docker   
 Clone this repositery   
 Run the docker compose file to run the container.  
