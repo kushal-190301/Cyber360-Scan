@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    image: python:3.9-slim
+    container_name: cyber360_app
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "443:443"
+    command: >
+      sh -c "
+      pip install --no-cache-dir -r requirements.txt &&
+      python app.py
+      "
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    restart: always
+
+  redis:
+    image: redis:6.2
+    container_name: cyber360_redis
+    ports:
+      - "6379:6379"
+    restart: always
