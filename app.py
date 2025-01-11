@@ -12,7 +12,6 @@ from cryptography.fernet import Fernet
 
 app = Flask(__name__)
 
-# Use environment variables for sensitive info
 VIRUSTOTAL_API_KEY = os.environ.get('VIRUSTOTAL_API_KEY', 'YOUR_API_KEY')
 VIRUSTOTAL_API_BASE_URL = 'https://www.virustotal.com/api/v3/'
 VIRUSTOTAL_FILE_SCAN_URL = VIRUSTOTAL_API_BASE_URL + 'files'
