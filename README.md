@@ -73,7 +73,7 @@ cd Cyber360-Scan
 python -m venv myenv  
 source myenv/bin/activate  # For Windows: myenv\Scripts\activate  
 
-**Install Dependencies** 
+**Install Dependencies**   
 pip install -r requirements.txt  
 
 **Run the application**  
