@@ -138,4 +138,4 @@ if __name__ == '__main__':
      context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
      context.load_cert_chain('./cert/selfsigned.crt', './cert/selfsigned.key')
      app.run(host='0.0.0.0', port=443, ssl_context=context, debug=os.environ.get('FLASK_DEBUG', 'True') == 'True')
-    #app.run(host='0.0.0.0', port=80, debug=os.environ.get('FLASK_DEBUG', 'True') == 'True')
+    #app.run(host='0.0.0.0', port=80, debug=os.environ.get('FLASK_DEBUG', 'True') == 'True') #[for port 80]
