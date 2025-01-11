@@ -69,7 +69,7 @@ It is designed to be simple and easy to use; the interface will be user-friendly
 git clone https://github.com/kushal-190301/Cyber360-Scan.git  
 cd Cyber360-Scan  
 
-**Create and activate the virtual enviroment**
+**Create and activate the virtual enviroment**  
 python -m venv myenv  
 source myenv/bin/activate  # For Windows: myenv\Scripts\activate  
 
