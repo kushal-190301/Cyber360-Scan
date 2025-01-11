@@ -1,3 +1,4 @@
+//Cyber360-Scan
 document.addEventListener('DOMContentLoaded', function () {
     const fileForm = document.getElementById('scan-form');
     const urlForm = document.getElementById("urlForm");
