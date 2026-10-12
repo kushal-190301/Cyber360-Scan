@@ -83,4 +83,5 @@ python3 app.py
 Install the docker   
 Clone this repositery   
 Run the docker compose file to run the container.  
+****
 
